@@ -11,7 +11,7 @@ sports_rev <- tuesdata[[1]] %>%
   mutate(pos = diff_mean >= 0) %>% 
   na.omit()
 
-ggplot(sports_rev, aes(x=diff_mean, y = reorder(sports_rev, -diff_mean), fill = pos))+
+ggplot(sports_rev, aes(x=diff_mean, y = reorder(sports, -diff_mean), fill = pos))+
   geom_col(position = "identity") +
   scale_x_continuous(labels = scales::comma) +
   theme_bw() +
