@@ -8,8 +8,7 @@ ad_rev_budget <- news_orgs %>%
   count() %>% 
   group_by(budget_percent_editorial) %>% 
   mutate(pct_rev=n/sum(n)*100) %>% 
-  filter(revenue_stream_largest=="Direct sold advertising")
-  view()
-
+  filter(revenue_stream_largest=="Direct sold advertising") %>% 
+  drop_na()
 
 ggplot()
