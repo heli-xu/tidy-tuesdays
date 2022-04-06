@@ -11,4 +11,9 @@ ad_rev_budget <- news_orgs %>%
   filter(revenue_stream_largest=="Direct sold advertising") %>% 
   drop_na()
 
-ggplot()
+ggplot(ad_rev_budget, aes(x=budget_percent_editorial, y= pct_rev))+
+  geom_col(position = "identity")+
+  theme_bw()+
+  labs(title = "Direct sold advertising vs Editorial budget",
+       subtitle="Direct sold advertising as largest revenue stream \n among publications with different budget for editorial",
+       y="% of largest revenue stream")
