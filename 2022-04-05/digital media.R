@@ -28,8 +28,9 @@ ggplot(tax_budget, aes(x=budget_percent_editorial, y= pct_pubs, fill=profit))+
   geom_col(position = "dodge")+
   theme_bw()+
   scale_fill_manual(name = "current tax status",
-                    values = met.brewer("Navajo",2))
+                    values = met.brewer("Navajo",2))+
   labs(title = "Editorial budget in For/Non-Profit Publications",
+       x = "% budget for editorial",
        y="% publications in each tax status")
 
 
