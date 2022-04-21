@@ -1,4 +1,5 @@
 library(tidyverse)
+library(janitor)
 
 tuesdata <- tidytuesdayR::tt_load('2022-04-12')
 
@@ -10,27 +11,34 @@ death_timeseries <- tuesdata$death_timeseries
 
 ##6 dataframe in the list, some overlapping
 ##indoor pollution has death rate as a percentage
-##just realized continent is among the "Entity" with the countries
+##just realized continent is among the "Entity" with the countries; tried "filter", some missing info
+###ACTUALLY, there's a code to add continent mutate(continent = countrycode::countrycode(Code, "iso3c", "continent"))
+
 ##so we'll just look at death rate across 30 years in different continent
 
-indoor_pollution_cont <- indoor_pollution %>% 
-  filter(Entity%in% c("Europe","Asia","Oceania","Africa",
-                      "North America","South America")) %>% 
-  rename(death_rate= 4)
+death_gdp <- indoor_pollution %>% 
+  left_join(fuel_gdp,by = c("Entity","Code","Year")) %>% 
+  clean_names() %>% 
+  mutate(continent=countrycode::countrycode(code, "iso3c", "continent")) %>% 
+  rename(death_rate= 4,
+         gdp = 6) %>% 
+  drop_na()
          
 # 4 is column number, or you can start typing 'death' and it'll auto complete
 #`Deaths - Cause: All causes - Risk: Household air pollution from solid fuels - Sex: Both - Age: Age-standardized (Percent)`)
 
-indoor_pollution_cont %>% 
-  ggplot(aes(x=Year, y=death_rate), color=Entity)+
-  geom_line(aes(color=Entity))+
+death_gdp %>% 
+  filter(year %in% c(2000,2016)) %>% 
+  ggplot(aes(x=continent, y=death_rate), fill=entity)+
+  geom_point(aes(size=gdp, color=continent))+
   theme_bw()+
-  labs(title = "Death related to indoor pollution from 1990-2019",
+  facet_wrap(~year)
+  labs(title = "Death related to indoor pollution in 2000 vs 2016",
        y="% death of all causes",
        caption="TidyTuesday week 15")+
   scale_color_discrete(name ='Continent')
 
-##Oceania weirdly high, with Australia and New Zealand very low
+
 
 fuel_gdp %>% 
   filter(Entity%in% c("Europe","Asia","Oceania","Africa",
