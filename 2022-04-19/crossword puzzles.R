@@ -88,7 +88,7 @@
   
   { # 2.2 Ran ----
     max_ans %>% 
-      ggplot(aes(x= fct_reorder(puzzle_name, count), y=count, fill = puzzle_name))+
+      ggplot(aes(y= fct_reorder(puzzle_name, count), x=count, fill = puzzle_name))+
       geom_col(position = "identity")+
       theme_bw()+
       theme(legend.position = 'none')
