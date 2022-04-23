@@ -88,8 +88,10 @@
   
   { # 2.2 Ran ----
     max_ans %>% 
+      
       group_by(puzzle_name, count) %>% 
       summarize(answer = paste0(answer, collapse = ', ')) %>% 
+      bind_rows(tibble(puzzle_name = "HooterTime", count = 35, answer = "Culture")) %>% 
       ggplot(aes(y= fct_reorder(puzzle_name, count), x=count, fill = puzzle_name))+
       geom_col(position = "identity")+
       geom_text(aes(x = count +1, label  = glue("({answer})")), 
