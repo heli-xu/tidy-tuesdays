@@ -90,7 +90,8 @@
     max_ans %>% 
       ggplot(aes(y= fct_reorder(puzzle_name, count), x=count, fill = puzzle_name))+
       geom_col(position = "identity")+
-      theme_bw()+
+      labs(y='')+
+      theme_minimal()+
       theme(legend.position = 'none')
   }
   
