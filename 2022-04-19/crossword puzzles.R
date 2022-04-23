@@ -94,7 +94,9 @@
       geom_col(position = "identity")+
       geom_text(aes(x = count +1, label  = glue("({answer})")), 
                 hjust = 0, size = 3)+
-      labs(y='')+
+      labs(y='', x= 'Number of times word in puzzle',
+           title = "Most common answers to crosswork puzzles by paper!",
+           subtitle = "the answers are labeled with ()")+
       scale_x_continuous(limits = c(0,60))+
       theme_minimal()+
       theme(legend.position = 'none')
