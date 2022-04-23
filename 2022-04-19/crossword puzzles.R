@@ -88,9 +88,14 @@
   
   { # 2.2 Ran ----
     max_ans %>% 
+      group_by(puzzle_name, count) %>% 
+      summarize(answer = paste0(answer, collapse = ', ')) %>% 
       ggplot(aes(y= fct_reorder(puzzle_name, count), x=count, fill = puzzle_name))+
       geom_col(position = "identity")+
+      geom_text(aes(x = count +1, label  = glue("({answer})")), 
+                hjust = 0, size = 3)+
       labs(y='')+
+      scale_x_continuous(limits = c(0,60))+
       theme_minimal()+
       theme(legend.position = 'none')
   }
