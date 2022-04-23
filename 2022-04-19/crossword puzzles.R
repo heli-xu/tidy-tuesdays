@@ -3,6 +3,7 @@
   library(tidyverse)
   library(ggplot2)
   library(skimr)
+  library(forcats) ## very useful for ordering categorical variables with ggplot
   
   ## Load Data
   tuesdata <- tidytuesdayR::tt_load('2022-04-19')
@@ -80,7 +81,17 @@
 }
 { # 2. Plot ----
   
-  ggplot(max_ans, aes(x=puzzle_name, y=count), fill=puzzle_name)+
-    geom_col(position = "identity")
+  { # 2.1 Heli ----
+    ggplot(max_ans, aes(x=puzzle_name, y=count), fill=puzzle_name)+
+      geom_col(position = "identity")
+  }
+  
+  { # 2.2 Ran ----
+    max_ans %>% 
+      ggplot(aes(x= fct_reorder(puzzle_name, count), y=count, fill = puzzle_name))+
+      geom_col(position = "identity")+
+      theme_bw()+
+      theme(legend.position = 'none')
+  }
   
 }
