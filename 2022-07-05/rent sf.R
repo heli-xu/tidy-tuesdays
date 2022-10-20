@@ -90,16 +90,26 @@ rent_year_top10 <- rent_year %>%
   filter(nhood %in% top10_nhood) %>% 
   filter(beds <= 4)
 
+color_pal_10 <- c("#003a52", "#005f73", "#0a9396", "#94d2bd", "#b4922d", 
+                  "#ee9b00", "#b65c02", "#f1887e", "#d3363b", '#792701')
+
+#003a52, #005f73, #0a9396, #94d2bd, #a38529, #ee9b00, #b65c02, #f1887e, #d3363b, #792701
+
+#adding a facet label
+beds_label <- c("studio","1 beds", "2 beds", "3 beds", "4 beds")
+names(beds_label) <- c("0","1","2","3","4")
 
 rent_plot1 <- 
   rent_year_top10  %>% 
   ggplot()+
   geom_line(aes(x = year, y = median, color= nhood), size = 1) +
-  facet_wrap(~beds, scales = "free")+
+  scale_color_manual(values = color_pal_10)+
+  facet_wrap(~beds, scales = "free",
+             labeller = labeller(beds = beds_label))+
   theme_minimal()+
   labs(title = "Rents in Bay Area: 2000-2018",
-       subtitle = "(0 - 4 beds)",
-       caption = "Data from Pennington, Kate (2018). \nBay Area Craigslist Rental Housing Posts, 2000-2018.",
+       subtitle = "10 Neighborhoods with most listings. \nData from Pennington, Kate (2018). Bay Area Craigslist Rental Housing Posts, 2000-2018.",
+       caption = "@Heli_Xu | Data Pennington, Kate (2018)| #tidytuesday",
        x= "year",
        y= "Median price (dollars)",
        color = "Neighborhood")+
@@ -108,7 +118,7 @@ rent_plot1 <-
     panel.grid.minor = element_blank(),
     text = element_text(family = "Merriweather", size = 10),
     plot.title = element_text(family = "Fuzzy Bubbles", size = 25, hjust = 0.5),
-    plot.subtitle = element_text(family = "Fuzzy Bubbles", size = 18, hjust = 0.5),
+    plot.subtitle = element_text(family = "Fuzzy Bubbles", size = 15, hjust = 0.5),
     axis.title = element_text(size = 15),
     legend.title = element_text(size = 18)
   )
@@ -130,7 +140,7 @@ plot1_text <- data.frame(
   beds = 4
 )
 
-#rent_plot1_text <- 
+rent_plot1_text <- 
   rent_plot1 + geom_text(
     # inherit.aes = F,
     data = plot1_text,
@@ -143,7 +153,11 @@ plot1_text <- data.frame(
                   clip = 'off')   # This keeps the labels from disappearing
     
   
-    
+plotly::ggplotly(rent_plot1)  
+#mess some themes up, but cool features to interactively look at plots
+
+
+
 #mind where you drop_na, maybe dropping whole rows for some columns you don't need
 rent %>%
   group_by(year, nhood, beds) %>%
