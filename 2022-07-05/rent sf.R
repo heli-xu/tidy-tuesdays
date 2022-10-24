@@ -158,14 +158,6 @@ plotly::ggplotly(rent_plot1)
 
 
 
-#mind where you drop_na, maybe dropping whole rows for some columns you don't need
-rent %>%
-  group_by(year, nhood, beds) %>%
-  drop_na() %>%
-  summarise(mean = mean(price),
-            count = n(),
-            .groups = "drop") %>%
-  arrange(desc(count))
 
 
 
