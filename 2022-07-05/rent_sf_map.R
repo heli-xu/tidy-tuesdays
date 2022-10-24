@@ -146,11 +146,11 @@ pal2 <- colorNumeric(
   domain = rent_geo_county2$median
 )
 
-county_label <- paste0(
-  rent_geo_county2$county, "\n", "median rent $", rent_geo_county2$median
+library(glue)
 
-)
-
+county_label = glue("<h3 style='margin: 0px'>{rent_geo_county2$county}</h3>
+                    Median rent $: {rent_geo_county2$median}") %>%
+  map(~HTML(.x))
 
 leaflet(rent_geo_county2) %>% 
   addProviderTiles(providers$CartoDB.Voyager) %>% 
