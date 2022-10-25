@@ -65,7 +65,7 @@ map_rent_year_beds <- function(year, beds){
   rent_geo_map <- rent_geo %>% 
     filter(year==year,
            beds == beds) %>% 
-    arrange(price)
+    arrange(price) #set the overlaying orders of circles, so that darker color sits at top
   
   pal <- colorNumeric(
     palette = c("orange","navy"),
